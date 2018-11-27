@@ -53,8 +53,8 @@ func (d *DYWebSocket) decode(data []byte) {
 	}
 
 	for len(d.buffer) > 0 {
-		if (d.readLength == 0) {
-			if (len(d.buffer) < 4) {
+		if d.readLength == 0 {
+			if len(d.buffer) < 4 {
 				return
 			}
 			d.readLength = binary.LittleEndian.Uint32(d.buffer)
@@ -85,8 +85,34 @@ func (d *DYWebSocket) encode(msg string) []byte {
 
 func (d *DYWebSocket) onMessage(msg string) {
 	kmp := query.Decode(msg)
-	if kmp["type"] == "chatmsg" {
-		fmt.Println("弹幕消息->", "["+kmp["nn"]+"]", kmp["txt"])
+
+	switch kmp["type"] {
+	case "chatmsg":
+		//fmt.Println("弹幕消息->", "["+kmp["nn"]+"]", kmp["txt"])
+		break
+	case "uenter":
+		//大佬近直播间了
+		break
+	case "spbc":
+		//map[bid:1002012_1541420233_5800 sn:百度0小宇 dn:冠磊敲可爱 gs:1 gfid:2050 rid:18927600 gn:盛典火箭 gb:0 eid:542 sid:189413723 drid:5810364 es:1 cl2:0 type:spbc gc:1 bgl:3 ifs:0 gid:0]
+		//sn 送给 dn gn
+		break
+	case "mrkl":
+		//心跳包
+		break
+	case "pingreq":
+		//返回的服务器时间
+		break
+	case "loginres":
+		//登录返回的数据
+		break
+	case "synexp":
+		//map[type:synexp o_exp:1955840422 o_lev:60 o_minexp:1804500000 o_upexp:48659578 rid:475252]
+		//貌似是有人送主播礼物返回的主播到下一级需要多少经验
+		break
+
+	default:
+		fmt.Println(kmp)
 	}
 }
 

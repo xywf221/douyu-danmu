@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	ws, err := net.NewDYWebSocket(288016)
+	ws, err := net.NewDYWebSocket(475252)
 	if err != nil {
 		panic(err)
 	}
